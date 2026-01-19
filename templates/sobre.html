@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre - Conversor de Texto Flask</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <img src="{{ url_for('static', filename='images/youtube.png') }}" alt="Logo" class="logo">
+                <h1><i class="fas fa-info-circle"></i> Sobre a Aplicação</h1>
+            </div>
+            <p class="subtitle">Informações sobre este projeto Flask</p>
+        </header>
+
+        <main>
+            <div class="about-content">
+                <div class="about-section">
+                    <h2><i class="fab fa-flask"></i> Sobre o Projeto</h2>
+                    <p>Esta é uma aplicação web desenvolvida com <strong>Flask</strong>, um microframework Python para desenvolvimento web rápido e simples.</p>
+                    <p>A aplicação demonstra o conceito de <strong>processamento no servidor</strong> com <strong>download no cliente</strong>, onde:</p>
+                    <ul>
+                        <li>O cliente (navegador) envia dados para o servidor</li>
+                        <li>O servidor (Flask) processa os dados (converte texto para maiúsculas)</li>
+                        <li>O resultado é retornado ao cliente</li>
+                        <li>O cliente pode fazer download do resultado processado</li>
+                    </ul>
+                </div>
+
+                <div class="about-section">
+                    <h2><i class="fas fa-code"></i> Tecnologias Utilizadas</h2>
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <i class="fab fa-python"></i>
+                            <h4>Python</h4>
+                            <p>Linguagem de programação principal</p>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fab fa-flask"></i>
+                            <h4>Flask</h4>
+                            <p>Framework web para o backend</p>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fab fa-html5"></i>
+                            <h4>HTML5</h4>
+                            <p>Estrutura da aplicação web</p>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fab fa-css3-alt"></i>
+                            <h4>CSS3</h4>
+                            <p>Estilização da interface</p>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fab fa-js"></i>
+                            <h4>JavaScript</h4>
+                            <p>Interatividade no cliente</p>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fas fa-exchange-alt"></i>
+                            <h4>AJAX</h4>
+                            <p>Comunicação assíncrona</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-section">
+                    <h2><i class="fas fa-sitemap"></i> Estrutura do Projeto</h2>
+                    <pre class="code-block">
+meu-app-flask/
+├── app.py                 # Aplicação principal Flask
+├── templates/
+│   ├── index.html        # Página inicial
+│   └── sobre.html        # Página sobre
+└── static/
+    ├── css/
+    │   └── style.css     # Estilos CSS
+    ├── js/
+    │   └── script.js     # JavaScript do cliente
+    └── images/
+        └── youtube.png   # Imagem de exemplo
+                    </pre>
+                </div>
+
+                <div class="about-section">
+                    <h2><i class="fas fa-rocket"></i> Como Executar</h2>
+                    <ol>
+                        <li>Instale o Flask: <code>pip install flask</code></li>
+                        <li>Execute a aplicação: <code>python app.py</code></li>
+                        <li>Acesse no navegador: <code>http://localhost:5000</code></li>
+                        <li>Digite um texto, processe e faça o download do resultado!</li>
+                    </ol>
+                </div>
+
+                <div class="action-buttons">
+                    <a href="/" class="btn btn-primary">
+                        <i class="fas fa-arrow-left"></i> Voltar para o Conversor
+                    </a>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Aplicação Flask de exemplo &copy; 2023 - Demonstração de Processamento Cliente-Servidor</p>
+            <div class="footer-links">
+                <a href="/">Início</a> | 
+                <a href="https://flask.palletsprojects.com/" target="_blank">Documentação Flask</a> | 
+                <a href="https://github.com" target="_blank">GitHub</a>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

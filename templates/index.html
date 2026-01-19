@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazed YouTube Downloader v1.3 - Web</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+ 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="{{ url_for('static', filename='images/youtube.png') }}" type="image/png">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <img src="{{ url_for('static', filename='images/youtube.png') }}" alt="YouTube Logo" class="logo">
+                <div class="header-text">
+                    <h1><i class="fas fa-download"></i> Mais um Suposto Baixador do Youtube</h1>
+                    
+                    <p class="subtitle">Desenvolvido por Gabriel Machado</p>
+                </div>
+            </div>
+            <div class="connection-status">
+                <span id="statusDot" class="status-dot"></span>
+                <span id="statusText">Conectando...</span>
+            </div>
+        </header>
+
+        <main>
+            <!-- Seção de URL -->
+            <div class="particles-container"></div>
+            <div class="card">
+                <h2><i class="fas fa-link"></i> URL do YouTube</h2>
+                <div class="input-group">
+                    <input type="text" id="urlInput" placeholder="Cole a URL do vídeo aqui...">
+                    <button id="pasteBtn" class="btn btn-secondary">
+                        <i class="fas fa-paste"></i> Colar
+                    </button>
+                    <button id="getInfoBtn" class="btn btn-primary">
+                        <i class="fas fa-info-circle"></i> Obter Informações
+                    </button>
+                </div>
+            </div>
+
+            <!-- Informações do Vídeo (inicialmente oculto) -->
+            <div id="videoInfoCard" class="card hidden">
+                <h2><i class="fas fa-video"></i> Informações do Vídeo</h2>
+                <div class="video-info-content">
+                    <div class="thumbnail-container">
+                        <img id="videoThumbnail" src="" alt="Thumbnail">
+                    </div>
+                    <div class="video-details">
+                        <h3 id="videoTitle">Carregando...</h3>
+                        <div class="video-meta">
+                            <span><i class="fas fa-user"></i> <span id="videoAuthor"></span></span>
+                            <span><i class="fas fa-clock"></i> <span id="videoDuration"></span></span>
+                            <span><i class="fas fa-eye"></i> <span id="videoViews"></span></span>
+                        </div>
+                        <div class="filename-section">
+                            <label for="filenameInput">Nome personalizado (opcional):</label>
+                            <input type="text" id="filenameInput" placeholder="Deixe em branco para usar o nome original">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção de Opções -->
+            <div class="card">
+                <h2><i class="fas fa-cog"></i> Opções de Download</h2>
+                <div class="options-grid">
+                    <div class="option-card" data-option="Audio Standard MP3">
+                        <div class="option-icon">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <h3>Áudio MP3</h3>
+                        <p>Qualidade padrão com metadados e capa</p>
+                    </div>
+                    
+                    <div class="option-card" data-option="Audio Best Quality">
+                        <div class="option-icon">
+                            <i class="fas fa-file-audio"></i>
+                        </div>
+                        <h3>Áudio Melhor Qualidade</h3>
+                        <p>M4A com qualidade máxima</p>
+                    </div>
+                    
+                    <div class="option-card" data-option="Video MP4 Full HD">
+                        <div class="option-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h3>Vídeo MP4 Full HD</h3>
+                        <p>Até 1080p com legendas</p>
+                    </div>
+                    
+                    <div class="option-card" data-option="Video Best Quality">
+                        <div class="option-icon">
+                            <i class="fas fa-hd"></i>
+                        </div>
+                        <h3>Vídeo Melhor Qualidade</h3>
+                        <p>Qualidade máxima disponível</p>
+                    </div>
+                </div>
+                
+                <div class="selected-option">
+                    <strong>Opção selecionada:</strong>
+                    <span id="selectedOptionText">Nenhuma</span>
+                </div>
+                
+                <div class="download-action">
+                    <button id="downloadBtn" class="btn btn-success btn-large" disabled>
+                        <i class="fas fa-download"></i> Iniciar Download
+                    </button>
+                    <!-- <div class="session-id">
+                        Sessão: <span id="sessionId">-</span>
+                    </div> -->
+                </div>
+            </div>
+
+            <!-- Progresso do Download -->
+            <div id="progressCard" class="card hidden">
+                <h2><i class="fas fa-spinner fa-spin"></i> Progresso do Download</h2>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="progressPercentage">0%</span>
+                        <span id="progressMessage">Aguardando...</span>
+                    </div>
+                </div>
+                <div class="log-container">
+                    <h3><i class="fas fa-terminal"></i> Logs</h3>
+                    <div id="logOutput" class="log-output"></div>
+                </div>
+            </div>
+
+            <!-- Downloads Concluídos -->
+            <div id="downloadsCard" class="card">
+                <h2><i class="fas fa-history"></i> Downloads Recentes</h2>
+                <div class="downloads-header">
+                    <button id="refreshDownloadsBtn" class="btn btn-secondary">
+                        <i class="fas fa-sync-alt"></i> Atualizar
+                    </button>
+                </div>
+                <div id="downloadsList" class="downloads-list">
+                    <div class="empty-state">
+                        <i class="fas fa-folder-open"></i>
+                        <p>Nenhum download ainda</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p><i class="fas fa-code"></i> Desenvolvido por Gabriel Machado</p>
+                    <p><i class="fas fa-globe"></i> Versão Web</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#" id="manualCleanupBtn"><i class="fas fa-broom"></i> Limpar Arquivos Expirados</a>
+                   
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modal para Download Concluído -->
+    <div id="successModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-check-circle"></i> Download Concluído!</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="successMessage">Seu download foi concluído com sucesso!</p>
+                <div class="modal-actions">
+                    <button id="openFileBtn" class="btn btn-primary">
+                        <i class="fas fa-folder-open"></i> Abrir Pasta
+                    </button>
+                    <button id="downloadFileBtn" class="btn btn-success">
+                        <i class="fas fa-download"></i> Baixar Arquivo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.0/socket.io.js"></script>
+   
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
